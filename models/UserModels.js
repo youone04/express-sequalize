@@ -5,7 +5,8 @@ export default (db , DataTypes) => {
             type: DataTypes.STRING
         },
         email : {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            unique: true
         },
         password : {
             type: DataTypes.TEXT
