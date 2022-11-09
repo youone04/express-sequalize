@@ -14,7 +14,8 @@ const PORT = process.env.PORT || 8800;
 try{
     await db.authenticate();
     console.log('Database terhubung');
-    await dbs.user.sync()
+    await dbs.user.sync();
+    await dbs.mahasiswa.sync();
 }catch(error){
     console.log(error)
 }
