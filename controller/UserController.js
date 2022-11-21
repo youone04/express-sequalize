@@ -23,10 +23,12 @@ export const getUser = async (req, res) => {
 
 export const createUser = async (req, res) => {
   try {
-    const { nama, email, password } = req.body;
+    const { nama, email, password , role } = req.body;
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password.toString(), salt);
-    await dbs.user.create({ nama: nama, email: email, password: hashPassword });
+    const reg =  await dbs.user.create({ nama: nama, email: email, password: hashPassword });
+    await dbs.roles.create({role: role , userId: reg.dataValues.id});
+
     res.send({
       status: 200,
       message: "Success",
@@ -129,7 +131,14 @@ export const LoginUser = async (req, res) => {
       where: {
         email: email,
       },
-      attributes: ["password", "id", "email", "nama"],
+      attributes: ["password","id", "email", "nama"],
+      include: [
+       {
+        model: dbs.roles,
+        as: 'roles',
+        attributes: ["role"],
+       }
+      ]
     });
     if (!user) return res.send({ status: 400, message: "User Tidak Ada" });
     const match = await bcrypt.compare(password, user.password);
@@ -140,7 +149,7 @@ export const LoginUser = async (req, res) => {
         id: user.id,
         nama: user.nama,
         email: user.email,
-        role : 'user.role'
+        role : user.roles
       },
       process.env.JWT_SECRET,
       {
@@ -150,7 +159,7 @@ export const LoginUser = async (req, res) => {
     res.status(200).send({
         status: 200,
         token: token,
-        message: "success"
+        message: "success",
     })
 
   } catch (error) {

@@ -10,7 +10,13 @@ export const VerifyToken = (userRole) => {
         if(!token) return res.sendStatus(401);
         jwt.verify(token , process.env.JWT_SECRET , (err , decoded) => {
             if(err) return res.sendStatus(403);
-            if(userRole !== decoded.role) return res.sendStatus(403);
+            // console.log(decoded.role)
+            const dataRole = []
+            decoded.role.map(d => {
+               dataRole.push( d.role)
+            });
+            
+            if(!userRole.some(r=> dataRole.includes(r))) return res.sendStatus(403);
             req.email = decoded.email
             next()
         })
