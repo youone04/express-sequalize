@@ -11,6 +11,11 @@ import {
  } from "../controller/MahasiswaController.js";
 
  import { GetMatakuliah } from "../controller/MatakuliahController.js";
+import { uploadImageLokal } from "../controller/UploadImageLokal.js";
+import UploadImageLokal from "../middleware/uploadImageLocal.js";
+import { uploadImageLokalMultiple } from "../controller/UploadImageLokalMultiple.js";
+import { uploadImageCloud } from "../controller/UploadImageCloud.js";
+import UploadImageCloud from "../middleware/uploadImageCloud.js";
 
 const router = express.Router();
 
@@ -32,5 +37,15 @@ router.get('/mahasiswa2', GetMahasiswa2);
 
 //matkuliah
 router.get('/matakuliah', GetMatakuliah);
+
+//upload image singgle lokal
+router.post('/upload-singgle-image-lokal',UploadImageLokal.single("gambar"), uploadImageLokal);
+
+//upload imgae multiple lokal
+router.post('/upload-multiple-image-lokal',UploadImageLokal.array("gambar"), uploadImageLokalMultiple);
+
+//upload image singgle cloud
+router.post('/upload-singgle-image-cloud',UploadImageCloud.single("gambar"), uploadImageCloud);
+
 
 export default router;
