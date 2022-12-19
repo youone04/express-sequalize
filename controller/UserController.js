@@ -1,10 +1,19 @@
 import bcrypt from "bcrypt";
 import dbs from "../models/index.js";
 import jwt from "jsonwebtoken";
+import { body, validationResult } from 'express-validator';
+
 
 export const getUser = async (req, res) => {
   try {
-    const user = await dbs.user.findAll();
+   
+    const user = await dbs.user.findAll({
+      include: [
+        {
+         model: dbs.roles,as: "roles",
+         attributes: ["role"],
+        }]
+    });
     res.send({
       status: 202,
       message: "Success",
@@ -23,9 +32,16 @@ export const getUser = async (req, res) => {
 
 export const createUser = async (req, res) => {
   try {
+    
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { nama, email, password , role } = req.body;
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password.toString(), salt);
+    
     const reg =  await dbs.user.create({ nama: nama, email: email, password: hashPassword });
     await dbs.roles.create({role: role , userId: reg.dataValues.id});
 

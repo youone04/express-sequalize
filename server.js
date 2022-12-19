@@ -23,6 +23,7 @@ try{
     // await dbs.matakuliah.sync();
     // await dbs.mahasiswa_matkul.sync();
     // await dbs.uploadphotoslokal.sync();
+    await dbs.chat.sync();
     
 }catch(error){
     console.log(error)
@@ -34,6 +35,7 @@ app.use(cors({
   "preflightContinue": false,
   "optionsSuccessStatus": 204
 }));
+
 
 app.use("/images", express.static(path.join(__dirname, "public/uploads")));
 app.use(bodyParser.urlencoded({extended : true}));

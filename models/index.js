@@ -7,6 +7,7 @@ import Mahasiswa2 from "./Mahasiswa2.js";
 import Matakuliah from "./Matakuliah.js";
 import MahasiswaMatkul from "./MahasiswaMatkul.js";
 import UploadPhotosSInggleLocal from "./UploadPhotosSInggleLocal.js";
+import Chat from "./Chat.js";
 
 
 const dbs = {};
@@ -20,12 +21,14 @@ dbs.mahasiswa2 = Mahasiswa2(db , Sequelize);
 dbs.matakuliah = Matakuliah(db , Sequelize);
 dbs.mahasiswa_matkul = MahasiswaMatkul(db , Sequelize);
 dbs.uploadphotoslokal = UploadPhotosSInggleLocal(db , Sequelize);
+dbs.chat = Chat(db , Sequelize);
 
 // relasi user dan role (many to one)
-dbs.user.hasMany(dbs.roles , {as : "roles"});
+dbs.user.hasMany(dbs.roles , {as : "roles" ,onDelete: 'cascade'});
 dbs.roles.belongsTo(dbs.user, {
     foreignKey: 'userId',
-    as: "user"
+    as: "user",
+    onDelete: 'CASCADE',
 });
 
 //relasi many to many mahasiswa2 dan matkul

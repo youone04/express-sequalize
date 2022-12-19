@@ -10,21 +10,6 @@ export default (db , DataTypes) => {
             allowNull: false
         },
         selfGranted: DataTypes.BOOLEAN
-        // ,
-        // mahasiswa2Id: {
-        //     type: DataTypes.INTEGER,
-        //     references: {
-        //       model: Mahasiswa2, // 'Movies' would also work
-        //       key: 'id'
-        //     }
-        //   },
-        // matakuliahId: {
-        //     type: DataTypes.INTEGER,
-        //     references: {
-        //       model: Matakuliah, // 'Actors' would also work
-        //       key: 'id'
-        //     }
-        // }
     },{
         freezeTableName: true
     });

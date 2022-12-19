@@ -13,7 +13,7 @@ export const VerifyToken = (userRole) => {
             // console.log(decoded.role)
             const dataRole = []
             decoded.role.map(d => {
-               dataRole.push( d.role)
+               dataRole.push(d.role)
             });
             
             if(!userRole.some(r=> dataRole.includes(r))) return res.sendStatus(403);

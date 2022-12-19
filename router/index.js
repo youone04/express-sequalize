@@ -9,19 +9,28 @@ import {
     DeleteMahasiswa, UpdateMahasiswa,
     GetMahasiswa2
  } from "../controller/MahasiswaController.js";
-
- import { GetMatakuliah } from "../controller/MatakuliahController.js";
+import { GetMatakuliah } from "../controller/MatakuliahController.js";
 import { uploadImageLokal } from "../controller/UploadImageLokal.js";
 import UploadImageLokal from "../middleware/uploadImageLocal.js";
 import { uploadImageLokalMultiple } from "../controller/UploadImageLokalMultiple.js";
 import { uploadImageCloud } from "../controller/UploadImageCloud.js";
 import UploadImageCloud from "../middleware/uploadImageCloud.js";
+import { check ,body } from 'express-validator';
+import { createUserValidation } from "../middleware/validasiForm.js";
+import { getCity, getCost, getProvince } from "../controller/RajaOngkir.js";
+import { getChat ,postChat } from "../controller/Chat.js";
 
 const router = express.Router();
 
 //user
 router.get('/user', getUser);
-router.post('/user',createUser);
+
+router.post('/user',
+check('nama', ' Name is required').notEmpty(), 
+check('email', ' Email is required').notEmpty(),
+body('email').isEmail(),body('password').isLength({ min: 3,max: 5 })
+,createUser);
+
 router.put('/user/:email', UpdateUser);
 router.delete('/user/:email', DeleteUser);
 router.post('/login', LoginUser);
@@ -46,6 +55,15 @@ router.post('/upload-multiple-image-lokal',UploadImageLokal.array("gambar"), upl
 
 //upload image singgle cloud
 router.post('/upload-singgle-image-cloud',UploadImageCloud.single("gambar"), uploadImageCloud);
+
+//raja ongkir
+router.get('/get-city', getCity);
+router.get('/get-province', getProvince);
+router.get('/get-cost', getCost);
+
+// chat
+router.get('/chat/:senderId/:receivedId', getChat);
+router.post('/chat', postChat);
 
 
 export default router;
