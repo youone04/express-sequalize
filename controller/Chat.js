@@ -1,5 +1,5 @@
 import dbs from "../models/index.js";
-import { Op, QueryTypes,Sequelize } from "sequelize";
+import { Sequelize } from "sequelize";
 
 export const getChat = async(req, res) => {
     try{
@@ -38,7 +38,7 @@ export const getChat = async(req, res) => {
 export const postChat = async(req, res) => {
     try{
         const{sender_id ,text , received_id} = req.body;
-        const data = await dbs.chat.create({
+        await dbs.chat.create({
                 sender_id,
                 text,
                 received_id
