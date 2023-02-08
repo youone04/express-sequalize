@@ -16,13 +16,14 @@ const __dirname = path.resolve();
 try{
     await db.authenticate();
     console.log('Database terhubung');
-    // await dbs.user.sync();
-    // await dbs.mahasiswa.sync();
-    // await dbs.roles.sync();
-    // await dbs.mahasiswa2.sync();
-    // await dbs.matakuliah.sync();
-    // await dbs.mahasiswa_matkul.sync();
-    // await dbs.uploadphotoslokal.sync();
+    await dbs.user.sync();
+    await dbs.mahasiswa.sync();
+    await dbs.roles.sync();
+    await dbs.mahasiswa2.sync();
+    await dbs.matakuliah.sync();
+    await dbs.mahasiswa_matkul.sync();
+    await dbs.uploadphotoslokal.sync();
+    await dbs.chat.sync();
     
 }catch(error){
     console.log(error)

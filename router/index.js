@@ -16,6 +16,7 @@ import UploadImageLokal from "../middleware/uploadImageLocal.js";
 import { uploadImageLokalMultiple } from "../controller/UploadImageLokalMultiple.js";
 import { uploadImageCloud } from "../controller/UploadImageCloud.js";
 import UploadImageCloud from "../middleware/uploadImageCloud.js";
+import { getChat ,postMessage } from "../controller/Chat.js";
 
 const router = express.Router();
 
@@ -46,6 +47,11 @@ router.post('/upload-multiple-image-lokal',UploadImageLokal.array("gambar"), upl
 
 //upload image singgle cloud
 router.post('/upload-singgle-image-cloud',UploadImageCloud.single("gambar"), uploadImageCloud);
+
+//chat
+router.get('/chat/:sender_id/:received_id', getChat);
+router.post('/chat', postMessage);
+
 
 
 export default router;
