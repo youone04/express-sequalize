@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use('/api' ,router);
+app.use('/' ,router);
 app.get('/', (req, res) => {
 
    try{
