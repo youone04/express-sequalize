@@ -6,7 +6,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     host: process.env.DB_HOST,
     timestamps: false,
     dialect: process.env.BD_DIALECT,
-    port: 19971,
+    port: 10292,
     logging: false,
     dialectOptions: {
       requestTimeout: 30000,
