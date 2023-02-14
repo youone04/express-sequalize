@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import path from "path";
 import cors from "cors";
 import dbs from "./models/index.js";
 import db from "./config/Database.js"
@@ -10,11 +11,20 @@ import router from "./router/index.js";
 const app = express()
 dotenv.config();
 const PORT = process.env.PORT || 8800;
+const __dirname = path.resolve();
 
 try{
     await db.authenticate();
     console.log('Database terhubung');
-    await dbs.user.sync()
+    await dbs.user.sync();
+    await dbs.mahasiswa.sync();
+    await dbs.roles.sync();
+    await dbs.mahasiswa2.sync();
+    await dbs.matakuliah.sync();
+    await dbs.mahasiswa_matkul.sync();
+    await dbs.uploadphotoslokal.sync();
+    await dbs.chat.sync();
+    
 }catch(error){
     console.log(error)
 }
@@ -26,6 +36,7 @@ app.use(cors({
   "optionsSuccessStatus": 204
 }));
 
+app.use("/images", express.static(path.join(__dirname, "public/uploads")));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(express.json());
 app.use(morgan("dev"));
